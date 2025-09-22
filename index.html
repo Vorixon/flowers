@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Regalo de Primavera para Luis</title>
+
+    <!-- Importamos las tipografías de diseño -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Parisienne&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+         *  [DISEÑO CSS ADAPTABLE Y DEFINITIVO]
+         *  ------------------------------------
+         *  Base "Mobile First" con mejoras específicas para Desktop.
+        */
+
+        /* --- 1. CONFIGURACIÓN GLOBAL Y RESET --- */
+        *, *::after, *::before {
+            padding: 0; margin: 0; box-sizing: border-box;
+        }
+
+        :root {
+            --light-bg-color: #f7f9fb;
+            --yellow-color: #FFD95A;
+            --green-color: #588157;
+            --stem-color: #344E41;
+            --text-color: #3a3a3a;
+            --box-bg-color: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--light-bg-color);
+            overflow: hidden;
+            perspective: 1000px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* --- 2. PANTALLA DE INICIO INTERACTIVA --- */
+        #pantalla-inicio {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--light-bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10000;
+            cursor: pointer;
+            transition: opacity 1.5s ease-out;
+            padding: 20px;
+        }
+        #pantalla-inicio h1 { font-size: clamp(1.8rem, 7vw, 3.5rem); font-style: italic; color: var(--text-color); }
+        #pantalla-inicio p { font-size: clamp(1rem, 4vw, 1.5rem); margin-top: 20px; font-family: 'Parisienne', cursive; font-weight: bold; animation: pulsar 3s infinite ease-in-out; }
+        @keyframes pulsar { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* --- 3. LLUVIA DE ENCANTO (EMOJIS) --- */
+        #emoji-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .emoji {
+            position: absolute;
+            top: -50px;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            animation: caer-y-flotar 15s linear forwards;
+            opacity: 0;
+        }
+        @keyframes caer-y-flotar {
+            0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+            10% { opacity: 0.8; }
+            100% { opacity: 0; transform: translateY(110vh) rotate(720deg); }
+        }
+        
+        /* --- 4. FLORES (DISEÑO BASE "MOBILE FIRST") --- */
+        .flowers, .mensaje-final { opacity: 0; transition: opacity 1s ease-in; }
+        .flowers { position: relative; transform: scale(0.8); }
+        .flower { position: absolute; bottom: 10vmin; transform-origin: bottom center; z-index: 10; --fl-speed: 1.4s; }
+        
+        /* Composición para móvil: un ramo compacto */
+        .flower--1 { transform: rotate(-12deg) translateX(-15vmin); animation: moving-flower-1 7s linear infinite; z-index: 11; }
+        .flower--2 { transform: rotate(5deg) scale(1.1); animation: moving-flower-2 7s linear infinite; z-index: 12; }
+        .flower--3 { transform: rotate(18deg) translateX(15vmin); animation: moving-flower-3 7s linear infinite; z-index: 11; }
+        
+        /* (Se mantiene toda la animación detallada, con ajustes de tiempo y color) */
+        .flower__leafs { position: relative; animation: blooming-flower 3.5s backwards; }
+        .flower__leafs--1 { animation-delay: 2.8s; }
+        .flower__leafs--2 { animation-delay: 2.2s; }
+        .flower__leafs--3 { animation-delay: 2.8s; }
+        
+        .flower__leaf { position: absolute; bottom: 0; left: 50%; width: 8vmin; height: 11vmin; border-radius: 51% 49% 47% 53%/44% 45% 55% 69%; background-image: linear-gradient(to top, var(--yellow-color), #FFC300); transform-origin: bottom center; opacity: 0.9; box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.5); }
+        .flower__leaf--1 { transform: translate(-10%, 1%) rotateY(40deg) rotateX(-50deg); }
+        .flower__leaf--2 { transform: translate(-50%, -4%) rotateX(40deg); }
+        .flower__leaf--3 { transform: translate(-90%, 0%) rotateY(45deg) rotateX(50deg); }
+        .flower__leaf--4 { width: 8vmin; height: 8vmin; transform-origin: bottom left; border-radius: 4vmin 10vmin 4vmin 4vmin; transform: translate(0%, 18%) rotateX(70deg) rotate(-43deg); z-index: 1; opacity: 0.8; }
+        
+        .flower__white-circle { position: absolute; left: -3.5vmin; top: -3vmin; width: 9vmin; height: 4vmin; border-radius: 50%; background-color: #fff; border: 1px solid #eee; }
+        .flower__white-circle::after { content: ""; position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: inherit; background-image: linear-gradient(90deg, #DAA520, #C08C00); }
+        
+        .flower__line { height: 55vmin; width: 1.5vmin; background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent, rgba(255, 255, 255, 0.2)), linear-gradient(to top, transparent 10%, var(--stem-color), var(--stem-color)); box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2); animation: grow-flower-tree 7s backwards; }
+        .flower--1 .flower__line { height: 65vmin; animation-delay: 0.8s; }
+        .flower--2 .flower__line { height: 70vmin; animation-delay: 0.5s; }
+        .flower--3 .flower__line { height: 65vmin; animation-delay: 0.8s; }
+        
+        .flower__line__leaf { --w: 7vmin; --h: calc(var(--w) + 2vmin); position: absolute; top: 20%; left: 90%; width: var(--w); height: var(--h); border-top-right-radius: var(--h); border-bottom-left-radius: var(--h); background-image: linear-gradient(to top, rgba(46, 139, 87, 0.6), var(--green-color)); }
+        .flower__line__leaf--1 { animation: blooming-leaf-right var(--fl-speed) 2.8s backwards; }
+        .flower__line__leaf--2 { top: 45%; animation: blooming-leaf-right var(--fl-speed) 2.5s backwards; }
+        .flower__line__leaf--3 { border-radius: 0; border-top-left-radius: var(--h); border-bottom-right-radius: var(--h); left: -460%; transform: rotate(-70deg) rotateY(30deg); animation: blooming-leaf-left var(--fl-speed) 2.2s backwards; }
+        .flower__line__leaf--4 { top: 40%; border-radius: 0; border-top-left-radius: var(--h); border-bottom-right-radius: var(--h); left: -460%; transform: rotate(-70deg) rotateY(30deg); animation: blooming-leaf-left var(--fl-speed) 1.9s backwards; }
+        
+        .growing-grass { animation: growing-grass-ans 1.8s 3.5s backwards; }
+        .flower__grass { --c: var(--green-color); position: absolute; bottom: 12vmin; left: -7vmin; display: flex; flex-direction: column; align-items: flex-end; z-index: 20; transform-origin: bottom center; transform: rotate(-48deg) rotateY(40deg); }
+        .flower__grass--1 { animation: moving-grass 3s linear infinite; }
+        .flower__grass--top { width: 7vmin; height: 10vmin; border-top-right-radius: 100%; border-right: 1.5vmin solid var(--c); transform-origin: bottom center; transform: rotate(-2deg); }
+        .flower__grass--bottom { margin-top: -2px; width: 1.5vmin; height: 25vmin; background-image: linear-gradient(to top, transparent, var(--c)); }
+        
+        .long-g { position: absolute; bottom: 25vmin; left: -42vmin; transform-origin: bottom left; }
+        .long-g .leaf { --w: 15vmin; --h: 40vmin; --c: var(--green-color); position: absolute; bottom: 0; width: var(--w); height: var(--h); border-top-left-radius: 100%; border-left: 2vmin solid var(--c); mask-image: linear-gradient(to top, transparent 20%, #000); transform-origin: bottom center; }
+        .long-g--1 { bottom: 0vmin; transform: scale(0.8) rotate(-5deg); }
+        .long-g .leaf--0, .long-g .leaf--1 { animation: leaf-ans-1 6s linear infinite; }
+        
+        /* --- 5. MENSAJE FINAL --- */
+        .mensaje-final {
+            position: absolute;
+            top: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(300px, 90vw, 500px);
+            padding: 25px 30px;
+            background: var(--box-bg-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 20;
+            opacity: 0;
+            animation: aparecer-mensaje 3s ease-out forwards;
+            animation-delay: 9s;
+        }
+        @keyframes aparecer-mensaje { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        .mensaje-final h1 { font-family: 'Parisienne', cursive; font-size: clamp(2rem, 8vw, 3.5rem); font-weight: bold; line-height: 1.3; color: var(--text-color); text-align: center; }
+
+        /* --- 6. [MEJORA CLAVE]: DISEÑO ADAPTABLE PARA PC --- */
+        @media (min-width: 768px) {
+            .flowers {
+                transform: scale(1); /* Hacemos el conjunto un poco más grande en PC */
+            }
+            /* Re-posicionamos las flores para que se extiendan por la pantalla */
+            .flower--1 { transform: rotate(-15deg) translateX(-30vmin); }
+            .flower--2 { transform: rotate(2deg) scale(1.1); }
+            .flower--3 { transform: rotate(15deg) translateX(30vmin); }
+
+            .mensaje-final {
+                top: 15vh;
+                width: clamp(400px, 50vw, 600px); /* Un poco más ancho en PC */
+            }
+
+            /* Re-posicionamos las hierbas largas para llenar el espacio */
+            .long-g--1 { left: -5vmin; }
+            .long-g--2 { left: 5vmin; animation: aparecer-extra 2s 8s backwards; } /* Elemento extra para PC */
+            
+            @keyframes aparecer-extra { 0% { opacity: 0; } 100% { opacity: 1; } }
+        }
+
+        /* --- 7. KEYFRAMES --- */
+        @keyframes moving-flower-1 { 0%, 100% { transform: rotate(-12deg) translateX(-15vmin); } 50% { transform: rotate(-18deg) translateX(-15vmin); } }
+        @keyframes moving-flower-2 { 0%, 100% { transform: rotate(5deg) scale(1.1); } 50% { transform: rotate(0deg) scale(1.1); } }
+        @keyframes moving-flower-3 { 0%, 100% { transform: rotate(18deg) translateX(15vmin); } 50% { transform: rotate(12deg) translateX(15vmin); } }
+        @keyframes blooming-leaf-right { 0% { transform-origin: left; transform: scale(0); } }
+        @keyframes blooming-leaf-left { 0% { transform-origin: right; transform: scale(0); } }
+        @keyframes grow-flower-tree { 0% { height: 0; } }
+        @keyframes blooming-flower { 0% { transform: scale(0); } }
+        @keyframes moving-grass { 0%, 100% { transform: rotate(-48deg) rotateY(40deg); } 50% { transform: rotate(-50deg) rotateY(40deg); } }
+        @keyframes growing-grass-ans { 0% { transform: scale(0); } }
+        @keyframes leaf-ans-1 { 0%, 100% { transform: rotate(-5deg) scale(1); } 50% { transform: rotate(5deg) scale(1.1); } }
+        .grow-ans { animation: grow-ans 3.5s var(--d) backwards; }
+        @keyframes grow-ans { 0% { transform: scale(0); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Inicio Interactiva -->
+    <div id="pantalla-inicio">
+        <div>
+            <h1>Hoy, la primavera te tiene un regalo</h1>
+            <p>Haz clic para recibirlo</p>
+        </div>
+    </div>
+    
+    <!-- Lluvia de Encanto -->
+    <div id="emoji-container"></div>
+
+    <!-- Música -->
+    <audio id="cancion-flores" loop>
+        <source src="flores.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Escena Principal -->
+    <div class="flowers">
+        <!-- (Mantenemos la estructura HTML original intacta) -->
+        <div class="flower flower--1"><div class="flower__leafs flower__leafs--1"><div class="flower__leaf flower__leaf--1"></div><div class="flower__leaf flower__leaf--2"></div><div class="flower__leaf flower__leaf--3"></div><div class="flower__leaf flower__leaf--4"></div><div class="flower__white-circle"></div></div><div class="flower__line"><div class="flower__line__leaf flower__line__leaf--1"></div><div class="flower__line__leaf flower__line__leaf--2"></div><div class="flower__line__leaf flower__line__leaf--3"></div><div class="flower__line__leaf flower__line__leaf--4"></div></div></div>
+        <div class="flower flower--2"><div class="flower__leafs flower__leafs--2"><div class="flower__leaf flower__leaf--1"></div><div class="flower__leaf flower__leaf--2"></div><div class="flower__leaf flower__leaf--3"></div><div class="flower__leaf flower__leaf--4"></div><div class="flower__white-circle"></div></div><div class="flower__line"><div class="flower__line__leaf flower__line__leaf--1"></div><div class="flower__line__leaf flower__line__leaf--2"></div></div></div>
+        <div class="flower flower--3"><div class="flower__leafs flower__leafs--3"><div class="flower__leaf flower__leaf--1"></div><div class="flower__leaf flower__leaf--2"></div><div class="flower__leaf flower__leaf--3"></div><div class="flower__leaf flower__leaf--4"></div><div class="flower__white-circle"></div></div><div class="flower__line"><div class="flower__line__leaf flower__line__leaf--1"></div><div class="flower__line__leaf flower__line__leaf--2"></div></div></div>
+        <div class="grow-ans" style="--d:2.2s"><div class="growing-grass"><div class="flower__grass flower__grass--1"><div class="flower__grass--top"></div><div class="flower__grass--bottom"></div></div></div></div>
+        <div class="long-g long-g--1"><div class="grow-ans" style="--d:6s"><div class="leaf leaf--0"></div></div></div>
+        <div class="long-g long-g--2"><div class="grow-ans" style="--d:7s"><div class="leaf leaf--0"></div></div></div> <!-- Hierba extra para PC -->
+    </div>
+    
+    <!-- Mensaje Final -->
+    <div class="mensaje-final">
+        <h1>Para Luis,<br>el chico con los sentimientos más bonitos</h1>
+    </div>
+
+    <!-- JavaScript para la interactividad -->
+    <script>
+        const pantallaInicio = document.getElementById('pantalla-inicio');
+        const cancion = document.getElementById('cancion-flores');
+        const emojiContainer = document.getElementById('emoji-container');
+        const contenedorFlores = document.querySelector('.flowers');
+        const mensajeFinal = document.querySelector('.mensaje-final');
+        const emojis = ['✨', '🌸', '💖', '💮', '💕'];
+
+        pantallaInicio.addEventListener('click', () => {
+            cancion.play().catch(e => console.error("Error al reproducir audio:", e));
+            pantallaInicio.style.opacity = '0';
+            
+            const emojiInterval = setInterval(() => {
+                const emoji = document.createElement('div');
+                emoji.classList.add('emoji');
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = `${Math.random() * 100}vw`;
+                emoji.style.animationDelay = `${Math.random() * 5}s`;
+                emojiContainer.appendChild(emoji);
+
+                setTimeout(() => emoji.remove(), 15000);
+            }, 500);
+
+            pantallaInicio.addEventListener('transitionend', () => {
+                pantallaInicio.style.display = 'none';
+                contenedorFlores.style.opacity = '1';
+                mensajeFinal.style.opacity = '1';
+                
+                setTimeout(() => clearInterval(emojiInterval), 10000);
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
